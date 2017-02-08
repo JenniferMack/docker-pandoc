@@ -1,46 +1,23 @@
 # Pandoc and Kindlegen for publishing
 
-FROM debian:stable-slim
+FROM alpine:latest
 
 LABEL maintainer "https://github.com/JenniferMack/docker-pandoc"
 
 # Update this to trigger new build
 ENV PANDOC_VER "1.19.2.1"
 
-ENV APT_CMD "apt-get install --yes --no-install-recommends"
-
-# Debian stuff
-RUN apt-get update -qq
-
-# Install wget
-RUN $APT_CMD wget ca-certificates
+# Package manager stuff
+RUN apk update && apk add bash curl
 
 # Install Kindlegen
-RUN wget -nv \
-    http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz \
-    -O /tmp/kindlegen.tar.gz
-RUN tar -xzf /tmp/kindlegen.tar.gz --directory /tmp
-RUN mv /tmp/kindlegen /bin
+RUN curl -Lsf http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz \
+    | tar xz -C /usr/local/share/ && ln /usr/local/share/kindlegen /usr/local/bin/
 
 # Install Pandoc latest
-RUN wget -nv \
-    https://github.com/jgm/pandoc/releases/download/$PANDOC_VER/pandoc-$PANDOC_VER-1-amd64.deb \
-    -O /tmp/pandoc.deb
-RUN dpkg -i /tmp/pandoc.deb
-
-# Install PDF stuff
-RUN $APT_CMD \
-    texlive-latex-base \
-    texlive-xetex \
-    latex-xcolor \
-    texlive-math-extra \
-    texlive-latex-extra \
-    texlive-fonts-extra \
-    texlive-bibtex-extra \
-    fontconfig
-
-# Clean up
-RUN rm -rf /tmp/*
+RUN curl -Lsf https://github.com/jgm/pandoc/releases/download/$PANDOC_VER/pandoc-$PANDOC_VER-1-amd64.deb \
+    | bsdtar xOf - data.tar.gz | tar xvz --strip-components 2 -C /usr/local \
+    && rm /usr/local/bin/pandoc-citeproc
 
 CMD ["bash"]
 
