@@ -17,8 +17,8 @@ RUN $APT_CMD wget
 
 # Install Kindlegen
 RUN wget -nv http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz -O /tmp/kindlegen.tar.gz
-RUN tar xzf /tmp/kindlegen.tar.gz
-RUN mv /tmp/kindlegen /bin/
+RUN cd /tmp && tar xzf /tmp/kindlegen.tar.gz
+RUN mv kindlegen /bin/
 
 # Install Pandoc latest
 RUN wget -nv https://github.com/jgm/pandoc/releases/download/$PANDOC_VER/pandoc-$PANDOC_VER-1-amd64.deb -O /tmp/pandoc.deb
