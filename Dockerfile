@@ -8,7 +8,7 @@ LABEL maintainer "https://github.com/JenniferMack/docker-pandoc"
 ENV PANDOC_VER "1.19.2.1"
 
 # Package manager stuff
-RUN apk update && apk add bash curl
+RUN apk update && apk add bash curl libarchive-tools
 
 # Install Kindlegen
 RUN curl -Lsf http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz \
@@ -16,7 +16,7 @@ RUN curl -Lsf http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.ta
 
 # Install Pandoc latest
 RUN curl -Lsf https://github.com/jgm/pandoc/releases/download/$PANDOC_VER/pandoc-$PANDOC_VER-1-amd64.deb \
-    | tar xOf - data.tar.gz | tar xvz --strip-components 2 -C /usr/local \
+    | bsdtar xOf - data.tar.gz | tar xvz --strip-components 2 -C /usr/local \
     && rm /usr/local/bin/pandoc-citeproc
 
 CMD ["bash"]
