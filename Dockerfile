@@ -10,7 +10,11 @@ ENV PANDOC_VER "1.19.2.1"
 ENV APT_CMD "apt-get install --yes --no-install-recommends"
 
 # App installs
-RUN apt-get update && $APT_CMD curl ca-certificates
+RUN apt-get update \
+    && $APT_CMD curl ca-certificates git make\
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # Install Kindlegen
 RUN curl -sf http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz \
