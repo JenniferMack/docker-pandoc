@@ -11,7 +11,7 @@ ENV APT_CMD "apt-get install --yes --no-install-recommends"
 
 # App installs
 RUN apt-get update \
-    && $APT_CMD curl ca-certificates git make zip \
+    && $APT_CMD curl ca-certificates git make zip ruby \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
