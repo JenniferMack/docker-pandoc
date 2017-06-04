@@ -15,6 +15,8 @@ RUN apt-get update \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
+# Gems
+RUN gem install pandoc-ruby
 
 # Install Kindlegen
 RUN curl -sf http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz \
