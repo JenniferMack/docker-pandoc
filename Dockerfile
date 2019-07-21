@@ -5,7 +5,7 @@ FROM debian:stable-slim
 LABEL maintainer "https://github.com/JenniferMack/docker-pandoc"
 
 # Update this to trigger new build
-ENV PANDOC_VER "1.19.2.1"
+ENV PANDOC_VER "2.7.3"
 
 ENV APT_CMD "apt-get install --yes --no-install-recommends"
 
